@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.19;
+contract New{
+    string public a;
+    uint public n;
+    constructor(string memory x,uint y){
+        a=x;
+        n=y;
+    }
+ function in(stirng memory x,uint y){
+      a=x;
+      n=y;
+}
+
+ 
