@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.0;
+contract Globalvariable{
+     
+     address public owner;
+     address public myblockhash;
+     uint public difficulty;
+     uint public gaslimit;
+     uint public number;
+     uint public timestamp;
+     uint public value;
+     uint public nowOn;
+     uint public origin;
+     uint public gasprice;
+     uint public callData;
+     uint public Firstfour;
+     constructor(){
+        owner =msg.sender;
+       myblockhash=block.coinbase;
+       difficulty=block.difficulty;
+       gaslimit=block.gaslimit;
+       number=block.number;
+       timestamp=block.timestamp;
+    //    origin=tx.origin;
+    //    gasprice=tx.gasprice;
+    //    callData=msg.data;
+    //    Firstfour=msg.sig;
+       //    value=msg.value;
+    //    nowOn=msg.now;
+     }
+}
