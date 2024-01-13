@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.19;
+contract keys{
+    uint public a=10;
+    uint public b=20;
+
+    // // USING VIEW TO CHECT THE STATE VARIABLE
+    // IF YOU WNAT TO CHANGE THE VALUE OF STATE VARIABLE (VIEW) SHOW ERROR
+    function getresult() public view returns(uint,uint){
+        return (a,b);
+    }
+
+    // WHAT IF I WANT
+    function endresutl() public view returns(uint, uint){
+        // uint a=3;
+        // uint b=5;
+        // a=a+10;
+        // b=b+10;
+       uint  product=a*b;
+       uint  total=a+b;
+       return (product,total);
+    }
+} 
