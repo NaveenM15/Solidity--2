@@ -1,0 +1,26 @@
+ // SPDX-License-Identifier:MIT
+ pragma solidity ^0.8.0;
+ contract Naveen{
+    string public name="Nawerwwwwwwwwwwveen";
+    function test()public view returns(string memory){
+        return name;
+    }
+ }
+
+ contract NextContract is Naveen{
+    function NextTester() public view returns(string memory){
+        return name;
+    }
+
+ }
+
+//  // SPDX-License-Identifier: MIT
+// pragma solidity  ^0.8.0;
+// import "./Basic.sol";
+// contract derived{
+//     Naveen f= Naveen (0x9D7f74d0C41E726EC95884E0e97Fa6129e3b5E99);
+//      function tester()public view returns(string memory){
+//         return f.name();
+//     }
+
+// }
