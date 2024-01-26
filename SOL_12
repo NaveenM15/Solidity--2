@@ -1,0 +1,52 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.19;
+
+// ERROR HANDLING
+/* 1. require [hign usage]
+   2. assert  [moderate usage]
+   3. revert. [less usage]
+*/
+contract ErrorHandling{
+
+    // REQUIRE............................
+     function checkinput(uint a)public pure returns(string memory){
+        require(a>=0,"INVALID UNIT8 (LOWER VALUE)");
+        require(a<=255,"INVALID UINT256 (HIGHER VALUE)");
+        return "Input is Valid Uint8 (CORRECT)";
+     }
+     function odd(int n) public pure returns(bool){
+        require(n%2!=0);
+        return true;
+     }
+
+    //ASSERT................................
+    bool public result;
+    function checkassert(uint n1,uint n2)public{
+         uint sum=n1+n2;
+         assert(sum <=255);
+         result=true;
+    }
+    function finalresult()public view returns(string memory){
+        if(result==true)
+        {
+            return "No OverFlow";
+        }
+        else 
+        {
+            return "OverFlow Exist";
+        }
+    }
+
+    // REVERT.....................................
+    function checkRevert(uint n1,uint n2) public pure returns(string memory,uint){
+        uint sum=n1+n2;
+        if(sum<0 || sum>255){
+            revert("OVERFLOW EXIST");
+        }
+        else 
+          {
+            return ("NO OVERFLOW",sum);
+          }
+
+    }
+}
