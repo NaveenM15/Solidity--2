@@ -1,0 +1,40 @@
+//SPDX-License_Identifier:MIT
+pragma solidity >=0.8.0 <0.8.22;
+
+// ARRAYS IN SOLIDITY....................
+contract Array{
+  // Several ways to initialize an array
+  // Dynamic.............
+  uint[]  arr1;
+  uint[]  arr2=[1,2,3,4,5];
+  // static............[size Fixed]
+  uint[10]  arr3;
+
+  
+  function PUSH(uint i) public {
+    arr1.push(i);
+  }
+  function POP()public{
+    arr1.pop();
+  }
+  function ARRAY_LENGTH()public view returns(uint){
+    return arr1.length;
+  }
+  function REMOVEINDEX(uint i) public{
+    delete arr1[i];
+  }
+
+  // if function is created in memory,only fixed size array can be used.
+  function MEMORY() pure external{
+    uint[] memory a=new uint[](5);
+  }
+  function getarray1() public view returns(uint[] memory){
+    return arr1;
+  }
+//   function getarray2() public view returns(uint[] memory){
+//     return arr2;
+//   }
+//   function getarray3() public view returns(uint[] memory){
+//     return arr3;
+//   }
+}
