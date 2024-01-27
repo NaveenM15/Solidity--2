@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.19;
+
+// Enum - Enumerations( counting ).
+contract Enum{
+    enum  Naveen{
+        pending,shipped,accepted,rejected,canceled
+    }
+    // Default value is the first element listed indefintion
+    //  -of the type, int this case "pending"
+     Naveen public naveen;
+     function get() public view returns(Naveen){
+       return naveen;
+     }
+     // update status by passing uint into input
+     function set(Naveen _naveen)public{
+        naveen=_naveen;
+     }
+     // update to a specific enum like this
+     function cancel()public{
+        naveen=Naveen.canceled;
+     }
+     // delete tesets the enum to its first value,0
+     function reset()public{
+        delete naveen;
+     }
+
+
+     // INORDER IMOPRT THE ENUM FILE.
+     // this normally created by another contract 
+     //  and import it to anywhere ,we want..
+
+    //  import "./EnumDeclaration.sol";
+
+}
