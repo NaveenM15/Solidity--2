@@ -1,0 +1,80 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.19;
+
+// MODIFIER
+/* Modifier are code that can be run before and after the function call
+   Generally use for 3 reason
+   * Restrict access,
+   * Validate inputs,
+   * Guard against reentrancy hack.
+*/
+contract Modifier{
+     
+    /* modifier are the function , that help to avoid writing function
+       many times, these modifiers always given to certain function to
+       perform some operation (or) return some values many times,
+       1. main function(modifier given) works only modifier function 
+         (require) true , otherwise else in require gives error handling.
+       2. [_;] - the dash is used to store return of every function,
+         [return 1;] - like this form.
+    */
+
+    // NORMAL ...........................................
+    modifier checker(){
+        require(true==false,"True is Not False");
+        // require(true==true,"True is Not False");
+         _;
+    }
+    function get1()public pure checker returns(uint){
+        return 1;
+    }
+     function get2()public pure checker returns(uint){
+        return 2;
+    }
+     function get3()public pure checker returns(uint){
+        return 3;
+    }
+     function get4()public pure checker returns(uint){
+        return 4;
+    }
+     function get5()public pure checker returns(uint){
+        return 5;
+    }
+    
+    // PASSING PARAMETER......................................
+    modifier isEven(uint a){
+      require(a%2==0,"The Value in A is Not EVEN");
+      _;
+    }
+    function CheckEven(uint a)public pure isEven(a) returns(bool){
+        return true;
+    }
+
+    // OTHER CONCEPTS.........................................
+     address public owner;
+     uint public num=10;
+     bool public value;
+     constructor(){
+        owner=msg.sender;
+     }
+     modifier onlyowner(){
+        require(msg.sender==owner ,"NOT OWNER");_;
+     }
+     modifier Validatedata(address _addr){
+        require(_addr!=address(0),"NOT A VALID ADDRESS");_;
+     }
+     function ChangeOwner(address _newowner)public onlyowner Validatedata(_newowner){
+        owner=_newowner;
+     }
+     modifier noReentrancy(){
+        require(!value,"NO REENTRANCY");
+        value=true;
+        _;
+        // value=false;
+     }
+     function decrement(uint i)public noReentrancy{
+        num-=1;
+        if(i>1)
+            decrement(i-1);
+     }
+}
