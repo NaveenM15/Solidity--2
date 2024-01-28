@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  >=0.8.0 <0.8.23;
+
+// Event Declaration
+// store upto e parameters can be indexed,
+// Indexed Parameters helps you filter the logs by the indexed parameter
+
+contract Events{
+    event log(uint a,address sender,string message);
+    event anotherlog();
+    function test()public{
+      emit log(10,msg.sender,"Hello world!");
+      emit log(20,msg.sender,"Naveen.");
+      emit anotherlog();
+    }
+}
