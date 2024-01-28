@@ -1,0 +1,57 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.19;
+
+// FUNCTION IN SOLIDITY...........
+contract Function{
+
+    //Function can return multiple values.......
+    function returnMany()public pure  returns(uint,bool,uint){
+        return (1,true,10);
+    }
+    // Return values can be named
+    function named()public pure returns(uint x,bool y,int z){
+         return (1,true,-10);
+    }
+    // return valuew can be assigned to their name.
+    // In this case the return statement can be omitted.
+    function assigned()public pure returns(uint x,bool y,string memory z){
+       x=10;
+       y=false;
+       z="Naveen";
+    }
+    
+    // Use Destructuring Assignment, when calling another.
+    function destructuringAssignment()public pure returns(uint,bool,uint,uint,uint){
+         (uint i,bool b,uint j)=returnMany();
+         (uint x, ,uint y)=(4,5,6);
+         return (i,b,j,x,y);
+    }
+
+    // cannot use map for either input or output
+    //can use array for input
+    function arrayinput(uint[] memory arr)public{
+       
+    }
+    // can use array for output
+    uint[] public arr;
+    function arrarOutput() public view returns(uint[] memory){
+         return arr;
+    }
+}
+
+// Call Function With Key-Value inputs..
+contract FunctionWithKeyValuePair{
+    function SomeFunWithManyInputs
+    (uint x,uint y,uint z,address a,bool b,string memory c)
+    public pure returns(uint){}
+
+    // Similar to recursion............
+    function CallFun() external pure returns(uint){
+        return SomeFunWithManyInputs(1,2,3,address(0),true,"HI");
+    }
+
+    // This like Key-value Pair
+    function CallFunWithKeyValue() external pure returns(uint){
+        return SomeFunWithManyInputs({x:10,y:20,z:30,a:address(0),b:true,c:"ALICE"});
+    }
+}
