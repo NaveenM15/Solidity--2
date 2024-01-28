@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  >=0.8.0 <0.8.23;
+// ShadowingInherited [ Inheritance in State Variable]
+// In this inheritance State Variable can't Override,
+//  -It can be [ ReDeclared ]
+contract  A{
+    string public name="Contract A";
+    function getName()public view returns(string memory){
+       return name;
+    }
+}
+
+/* Shadowing is Not allowed in Solidity 0.6 
+   -This will not Compile
+   contract B is A{
+      string public name="contract B";
+      }
+*/
+
+// Correct way is to access by using Constructor
+contract C is A{
+    constructor(){
+        name="contract";
+    }
+}
