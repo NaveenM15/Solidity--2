@@ -1,0 +1,37 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.24;
+
+/*  TYPES of Sending Ether
+    1. transfer (2300 gas,throws error)
+    2. send (2300 gas,return bool)
+    3. call (forward all gas or set gas, returns bool)
+*/
+contract ReceiveEther{
+    
+    // Function to receive Ether. msg.data must be empty
+    receive() external payable{}
+    // Fallback function is called when msg.data is not empty
+    fallback() external payable{}
+    function getBalance() public view returns(uint){
+       return address(this).balance;
+    }
+}
+contract SendEther{
+    // Not recommended
+   function sendViaTransfer(address payable a)public payable{
+      a.transfer(msg.value);
+   }
+   // Not recommended
+   function sendViaSend(address payable a)public payable{
+      // only return boolean value.
+      bool send=a.send(msg.value);
+      require(send,"Failed to Send.");
+   }
+   // Recommended
+   function sendViaCall(address payable a)public payable{
+      (bool send,bytes memory data)=a.call{value:msg.value}("");
+      require(send,"Failed to send Ether");
+   }
+ }
+
+
