@@ -1,0 +1,50 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.19;
+/* VISIBILITY
+   Function and state variables have to declare whether they 
+   -are accessible by other contracts.
+   * PUBLIC - any contract and account can call
+   * PRIVATE- only contract that defines the function.
+   * INTERNAL- only inside contract that inherits an INTERNAL Function.
+   * External- only other contracts and accounts can call
+*/
+contract Visibility2{
+
+    // VISIBILITY IN FUNCTION..................
+
+    // PRIVATE
+    function privatefun()private pure returns(string memory){
+        return "Private function called";
+    }
+    function testprivatefun()private pure returns(string memory){
+        return privatefun();
+    }
+    // INTERNAL
+    function internalfun()internal pure returns(string memory){
+        return "internal function called";
+    }
+    function testinternalfun()internal pure returns(string memory){
+        return internalfun();
+    }
+    // PUBLIC 
+    function publicfun()public pure returns(string memory){
+        return "Public function called";
+    }
+    function testpublicfun()public pure returns(string memory){
+        return publicfun();
+    }
+    // EXTERNAL
+    function externalfun()external pure returns(string memory){
+        return "External function called";
+    }
+    // function testexternalfun()external pure returns(string memory){
+    //     return externalfun();
+    // }
+
+    // VISIBILTY IN STATE VARIABLES...................
+    string public publicvar="PUBLIC VARIABLE";
+    string private privatevar="PRIVATE VARIABLE";
+    string internal internalvar="INTERNAL VARIABLE";
+    // There is no external state variable.
+
+}
