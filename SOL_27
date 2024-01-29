@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.24;
+
+// INTERFACE
+/*
+   We can interact with other contracts by declaring an INTERFACE.
+    
+   * cannot have any function implemented
+   * can inherit from other interfaces
+   * all declared function must be external
+   * cannot declare a constructor
+   * cannot declare state variables
+*/
+contract Interface{
+    uint public count;
+    function increment()external{
+        count+=1;
+    }
+}
+interface counter{
+    function count()external view returns(uint);
+    function increment() external;
+}
+contract mycontract{
+    function incrementcounter(address _counter)external  returns(uint){
+        counter(_counter).increment();
+    }
+    function getcount(address _counter)external view returns(uint){
+        return counter(_counter).count();
+    }
+}
+
+// UNISWAP EXAMPLE..............
+// interface UniswapV2Factory{
+
+// }
