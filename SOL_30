@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.23;
+
+// Minimum Gas Fee for FallBack is 2300
+// SEND / TRANSFER (forwards 2300 gas to this fallback function)
+// call (forwards all of the gas)
+// fallback must be always external.
+contract FallBack{
+  event log(string fun,uint gas);
+  fallback()external payable{
+    emit log("fallback",gasleft());
+  }
+  receive() external payable{
+    emit log("receive",gasleft());
+  }
+  function getBalance() public view returns(uint){
+    return address(this).balance;
+  }
+}
+contract SendToFallback{
+    function transferfallback(address payable a)public payable{
+        a.transfer(msg.value);
+    }
+    function callfallback(address payable a)public payable{
+        (bool send, )=a.call{value:msg.value}("");
+        require (send,"Failed to send Ether");
+    }
+}
