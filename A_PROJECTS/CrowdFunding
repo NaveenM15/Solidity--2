@@ -1,0 +1,91 @@
+
+/*  CROWDFUNDING
+       CrowdFunding is the practice of funding a project or
+       Venture by raising money from a large number of people.
+*/
+
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.19;
+contract CrowdFunding{
+   struct Request{
+       string description;
+       address payable recipient;
+       uint value;
+       bool completed;
+       uint noofvoters;
+       mapping(address=>bool)voters;
+   }
+   mapping(address=>uint)public contributors;
+   mapping(uint=>Request)public requests;
+   uint public numofrequests;
+   address public manager;
+   uint public minimumContribution;
+   uint public deadline;
+   uint public target;
+   uint public raisedAmount;
+   uint public noofContributors;
+
+   constructor(uint _target){
+       target=_target;
+       deadline=block.timestamp+7 days;
+       minimumContribution=10 wei;
+       manager=msg.sender;
+   }
+   modifier onlyManager(){
+        require(manager==msg.sender,"TO ACCESS THIS CONTRACT,PLEASE GET GET PERMISSION FORM THE MANAGER.");
+        _;
+   }
+   function createRequests(string calldata _description,address payable _recipient,uint _value)public onlyManager{
+        //we are Not able to access directly the variable inside the struct.
+        //so create pointer(address)
+        Request storage newRequest=requests[numofrequests];
+        numofrequests++;
+        newRequest.description=_description;
+        newRequest.recipient=_recipient;
+        newRequest.value=_value;
+        newRequest.completed=false;
+        newRequest.noofvoters=0;
+   }
+   function ContributionAmount()public payable{
+    require(block.timestamp<deadline,"DEADLINE IS PASSED");
+    require(msg.value>minimumContribution,"MINIMUM CONTIBUTION IS 10 wei");
+    if(contributors[msg.sender]==0){
+        noofContributors++;
+    }
+    contributors[msg.sender]+=msg.value;
+    raisedAmount+=msg.value;
+   }
+   function getContributionBalance()public onlyManager view returns(uint){
+    return address(this).balance;
+   }
+   function Refund()public {
+     require(block.timestamp>deadline && raisedAmount<target,"YOU ARE NOT ELIGIBLE FOR REFUND");
+     // money not equal to zero
+     require(contributors[msg.sender]>0,"YOY PAID ONLY ZERO,SO FEFUND IS NOT APPLICABLE.");
+     // contributor gives more money, so it return back to him.
+     payable(msg.sender).transfer(contributors[msg.sender]);
+     // contributor money returned to him,then make the value to zero.
+     contributors[msg.sender]=0;
+   }
+   function voteRequests(uint _requestNo)public{
+        require(contributors[msg.sender]>0,"YOY PAID ONLY ZERO,SO FEFUND IS NOT APPLICABLE.");
+        //create address
+        Request storage thisRequest=requests[_requestNo];
+        require(thisRequest.voters[msg.sender],"YOU HAVE ALREADY VOTED");
+        thisRequest.voters[msg.sender]=true;
+        thisRequest.noofvoters++;
+   }
+   function makePayments(uint _requestNo)public onlyManager{
+       //RaiseAmount is Greater than Target.
+       require(raisedAmount>=target,"TARGET IS NOT REACHED");
+       // If it is Greater check completed.
+       Request storage thisRequest=requests[_requestNo];
+       // if Not completed ,
+       require(thisRequest.completed==false,"THE REQUEST HAS BEEN COMPLETED");
+       //check the majority
+       require(thisRequest.noofvoters>noofContributors/2,"MAJORITY DOES NOT SUPPORT THE REQUEST");
+       // transfer the money to recipient address
+       thisRequest.recipient.transfer(thisRequest.value);
+       thisRequest.completed=true; 
+   }
+}
