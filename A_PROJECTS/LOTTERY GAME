@@ -1,0 +1,45 @@
+
+/* LOTTERY GAME.
+   A Manager conducted a lottery game with the participation Fee
+   is 1 Ether, the manager able to run ,if the number of participants
+   is greater than or equal to 3(>=3) and select one person from
+   the players and announce him as Winner.
+*/
+
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.24;
+contract LotteryGame{
+    address public manager;
+    address payable[] public players;
+    address payable public winner;
+    // Check the manager.
+    constructor(){
+        manager=msg.sender;
+    }
+    // Add participant themselves and pay for only one Ether.
+    function participate() public payable{
+        require(msg.value==1 ether,"PLEASE PAY ONE ETHER ONLY.");
+        players.push(payable(msg.sender));
+    }
+    // After the participant adding and paying,check the balance
+    // - and find out no fo participants using the value of ETHER.
+    // manager==msg.sender - [check the person is Manager].
+    function getBalance()public view returns(uint){
+        require(manager==msg.sender,"YOU ARE NOT ALLOWED TO ACCESS,PLEASE ASK MANAGER TO GIVE PERMISSION TO YOU.");
+        return address(this).balance;
+    }
+    function random()internal view returns(uint){
+    return uint(keccak256(abi.encodePacked(block.difficulty,block.timestamp,players.length)));
+    }
+    //This function helps to pick the random winner
+    function pickwinner()public{
+        require(manager==msg.sender,"YOU ARE NOT ALLOWED TO ACCESS,PLEASE ASK MANAGER TO GIVE PERMISSION TO YOU.");
+        require(players.length>=3,"PLEASE TRY TO ADD MORE PARTICIPANT");
+        uint r=random();
+        uint index=r%players.length;
+        winner=players[index];
+        players= new address payable[](0);
+
+    }
+
+}
